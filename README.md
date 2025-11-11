@@ -18,6 +18,12 @@ This project reproduces the noise correlation analysis from Figure 2d and 2e of 
 - ✅ **Publication-Quality Figures**: Multiple visualization styles (histograms, KDE plots, box plots with whiskers)
 - ⚠️ **Known Limitation**: Quantitative differences in correlation magnitudes due to dataset preprocessing (see [Validation](#note-on-quantitative-differences))
 
+### Reproduced Figures
+
+![Figure 2 Combined - Noise Correlation Analysis](outputs/figure_2_combined.png)
+
+**Figure 2d-g Recreation**: (d) Distribution of noise correlations for real vs shuffled data across 6.95M neuron pairs. (e) Comparison of similarly vs differently tuned pairs (69,754 top active pairs). (f) Mean correlation coefficients per mouse. (g) Distribution width (FWHM) per mouse. All panels confirm the paper's key findings: real correlations exceed shuffled controls, and similarly tuned pairs show higher correlations.
+
 ## Quick Start
 
 ```bash
