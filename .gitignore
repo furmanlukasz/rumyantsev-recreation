@@ -8,13 +8,16 @@
 
 # Large output files (keep structure, but allow key example figures)
 outputs/*.npz
+outputs/*.json
 outputs/first/
 outputs/second/
 outputs/third/
 # Allow key example figures for demonstration
-!outputs/figure_2d_recreation.png
-!outputs/figure_2e_recreation.png
+!outputs/figure_2d_kde.png
+!outputs/figure_2e_kde.png
 !outputs/figure_2_combined.png
+!outputs/figure_2f_boxplot.png
+!outputs/figure_2g_boxplot.png
 
 # Keep the paper PDF (it's important for reference!)
 !Rumyantsev_2020.pdf
