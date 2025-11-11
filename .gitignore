@@ -6,14 +6,15 @@
 *.h5
 *.hdf5
 
-# Large output files (keep structure, ignore generated files)
-outputs/*.png
-outputs/*.pdf
+# Large output files (keep structure, but allow key example figures)
 outputs/*.npz
-outputs/*.json
 outputs/first/
 outputs/second/
 outputs/third/
+# Allow key example figures for demonstration
+!outputs/figure_2d_recreation.png
+!outputs/figure_2e_recreation.png
+!outputs/figure_2_combined.png
 
 # Keep the paper PDF (it's important for reference!)
 !Rumyantsev_2020.pdf
@@ -56,7 +57,8 @@ venv.bak/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-*.ipynb
+# Allow the reproduction notebook
+!notebooks/reproduce_figure_2.ipynb
 
 # IPython
 profile_default/
