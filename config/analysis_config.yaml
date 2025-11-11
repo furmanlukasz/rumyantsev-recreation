@@ -1,0 +1,90 @@
+# Analysis parameters from Rumyantsev et al. 2020 Methods
+# Updated based on actual dataset structure (see DATA_STRUCTURE_ANALYSIS.md)
+
+data:
+  parquet_path: "coding_fidelity_bounds.dataset.parquet"
+  expected_n_mice: 5
+  expected_total_cells: 8029  # ✅ Verified - perfect match!
+  # Note: cell_idx is per-mouse indexed (0-based), not globally unique
+  
+  # Actual column names in parquet:
+  actual_columns:
+    mouse_id: "mouse_id"        # string IDs like "Mouse_L347"
+    cell_idx: "cell_idx"        # per-mouse indexed (0-N)
+    trial_idx: "trial_idx"      # integer trial ID
+    sample_idx: "sample_idx"    # time bin index (0-13)
+    behavior: "behavior"        # stimulus orientation (30, -30)
+    amplitude: "amplitude"      # neural activity (deconvolved spikes)
+
+preprocessing:
+  # ⚠️ locomotion_speed column NOT present - data appears pre-filtered
+  # Skip locomotion filtering step
+
+  time_window_start: 0.5     # seconds
+  time_window_end: 2.0       # seconds
+  time_bin_size: 0.275       # seconds per sample_idx
+
+  # Integration method selection:
+  # "discrete_conservative": bins [2,7] → [0.55s, 2.20s) duration=1.65s (6 bins)
+  # "discrete_extended": bins [1,7] → [0.275s, 2.20s) duration=1.925s (7 bins - closer to paper!)
+  integration_method: "discrete_extended"  # Current method
+  
+  # Bin mappings for different methods:
+  methods:
+    discrete_conservative:
+      time_window_start_bin: 2   # Start: 0.55s
+      time_window_end_bin: 7     # End: 2.20s (7 bins × 0.275s)
+    discrete_extended:
+      time_window_start_bin: 1   # Start: 0.275s
+      time_window_end_bin: 7     # End: 2.20s (7 bins × 0.275s)
+  
+  n_time_bins: 14            # sample_idx ranges 0-13
+  
+  # Trial counts (TOTAL across both stimuli):
+  expected_trials_total_min: 435
+  expected_trials_total_max: 662
+  # Per stimulus (~half of total):
+  expected_trials_per_stimulus_min: 217
+  expected_trials_per_stimulus_max: 332  # Actual max observed in dataset
+
+stimuli:
+  behavior_codes: [30, -30]  # degrees from vertical (actual values in data)
+  labels: ["A", "B"]         # mapped labels for analysis
+  mapping:  # behavior → stimulus_type
+    30: "A"    # +30° grating
+    -30: "B"   # -30° grating
+
+correlation_analysis:
+  method: "pearson"
+  average_across_stimuli: true
+  process_per_mouse: true  # ⚠️ CRITICAL: cell_idx only unique within mouse
+  
+tuning_similarity:
+  top_active_percentile: 10  # for Fig 2e
+  covariance_threshold: 0    # classify similar vs different
+
+statistics:
+  ks_test_sides: "two-sided"
+  expected_pvalue_threshold: 1.3e-6  # all mice should be < this
+
+visualization:
+  figure_2d:
+    n_bins: 100
+    x_range: [-0.2, 0.3]
+    colors:
+      real: "#2E86AB"
+      shuffled: "#A23B72"
+  figure_2e:
+    colors:
+      similar: "#E63946"
+      different: "#457B9D"
+
+validation:
+  expected_mean_correlation: 0.06
+  expected_correlation_std: 0.01
+  # Total pairs = sum of per-mouse pairs:
+  # L347: 1,844,160 + L354: 650,370 + L363: 1,521,880
+  # + L355: 2,399,145 + L362: 530,965 = 6,946,520
+  expected_total_pairs: 6946280
+  shuffled_variance_ratio: 0.5  # shuffled variance / real variance
+
