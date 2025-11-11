@@ -1,0 +1,12 @@
+{
+  "total_mice": 5,
+  "total_neurons": 8029,
+  "total_pairs": 6946280,
+  "mean_noise_correlation": 0.036710609007679716,
+  "std_noise_correlation": 0.07673214970330088,
+  "shuffled_variance_ratio": 0.3228488410219039,
+  "mean_sim_tuned": 0.03960594413596883,
+  "mean_diff_tuned": 0.022432120872393498,
+  "ks_statistic": 0.04282187033945617,
+  "ks_pvalue": 3.1871766793460993e-28
+}

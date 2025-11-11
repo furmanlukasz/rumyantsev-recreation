@@ -315,6 +315,3 @@ Documentation:
 3. **Validate frequently** - Check intermediate results match expectations
 4. **Document decisions** - Explain why you made implementation choices
 5. **Ask for help** - Use comments to flag uncertainties
-
-Good luck! This work will demonstrate both your technical skills and your 
-ability to rigorously reproduce scientific results.
