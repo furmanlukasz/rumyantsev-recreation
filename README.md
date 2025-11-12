@@ -465,9 +465,6 @@ rumyantsev-recreation/
 │   ├── reproduce_figure_2.ipynb    # Complete analysis walkthrough
 │   └── README.md                   # Notebook usage guide
 ├── outputs/                         # Generated figures and statistics
-├── docs/                            # Additional documentation
-│   ├── development/                 # Implementation methodology
-│   └── analysis/                    # Technical investigations
 ├── run_analysis.py                  # Main analysis script
 ├── regenerate_figures.py            # Re-plot with different styles
 ├── SUBMISSION_SUMMARY.md            # Submission package overview
