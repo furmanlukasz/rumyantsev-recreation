@@ -319,7 +319,7 @@ $$\eta_i(s) = r_i(s) - \mu_i(s)$$
 
 $$\eta_j(s) = r_j(s) - \mu_j(s)$$
 
-$$r(s) = \text{pearson\_correlation}(\eta_i(s), \eta_j(s))$$
+$$r(s) = \mathrm{corr}(\eta_i(s), \eta_j(s))$$
 
 Final noise correlation:
 
