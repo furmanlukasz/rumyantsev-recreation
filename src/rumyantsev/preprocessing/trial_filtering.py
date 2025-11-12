@@ -2,15 +2,48 @@
 Preprocessing module for trial filtering and time window integration.
 
 Implements data preprocessing steps from Rumyantsev et al. 2020:
+- Spike detection thresholding
 - Time window integration [0.5s, 2.0s]
 - Trial count validation (data appears pre-filtered for locomotion)
 - Reshaping for correlation analysis
 """
 
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 import polars as pl
+
+
+def apply_spike_threshold(
+    data: pl.DataFrame,
+    threshold: float = 0.5
+) -> pl.DataFrame:
+    """
+    Apply spike detection threshold to amplitude values.
+    
+    Sets amplitude values below threshold to zero. This removes low-amplitude
+    noise events that shouldn't count as spikes.
+    
+    Paper: Extended Data Fig 4c mentions threshold of 0.5 for spike counts.
+    May also apply to main correlation analysis (Fig 2d/2e).
+    
+    Args:
+        data: Neural data with 'amplitude' column
+        threshold: Minimum amplitude to count as spike (default: 0.5)
+        
+    Returns:
+        Data with thresholded amplitudes (values < threshold set to 0)
+        
+    Example:
+        >>> data = apply_spike_threshold(mouse_data, threshold=0.5)
+        >>> # Amplitudes < 0.5 are now 0
+    """
+    return data.with_columns(
+        pl.when(pl.col('amplitude') >= threshold)
+        .then(pl.col('amplitude'))
+        .otherwise(0.0)
+        .alias('amplitude')
+    )
 
 
 def integrate_time_window(

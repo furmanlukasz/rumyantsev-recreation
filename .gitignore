@@ -6,6 +6,9 @@
 *.h5
 *.hdf5
 
+documents/
+docs/ 
+
 # Large output files (keep structure, but allow key example figures)
 outputs/*.npz
 

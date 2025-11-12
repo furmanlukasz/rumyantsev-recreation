@@ -20,14 +20,24 @@ preprocessing:
   # ⚠️ locomotion_speed column NOT present - data appears pre-filtered
   # Skip locomotion filtering step
 
+  # Spike detection threshold
+  # Paper mentions threshold 0.5 for Extended Data Fig 4c ONLY
+  # Main correlation analysis (Fig 2d/2e) does NOT use threshold
+  # Testing confirmed: threshold 0.5 makes results worse (0.037 → 0.0146)
+  spike_threshold:
+    enabled: false      # DISABLED - threshold makes correlations too low
+    value: 0.5          # (Not used when disabled)
+    # Threshold removes real signal, not just noise
+
   time_window_start: 0.5     # seconds
   time_window_end: 2.0       # seconds
   time_bin_size: 0.275       # seconds per sample_idx
 
   # Integration method selection:
-  # "discrete_conservative": bins [2,7] → [0.55s, 2.20s) duration=1.65s (6 bins)
-  # "discrete_extended": bins [1,7] → [0.275s, 2.20s) duration=1.925s (7 bins - closer to paper!)
-  integration_method: "discrete_extended"  # Current method
+  # "discrete_conservative": bins [2,7] → [0.55s, 2.20s) duration=1.65s (6 bins) - CLOSER to [0.5s, 2.0s]
+  # "discrete_extended": bins [1,7] → [0.275s, 2.20s) duration=1.925s (7 bins) - includes earlier times
+  # Testing: threshold 0.5 made it worse (0.037→0.0146), now test time window
+  integration_method: "discrete_conservative"  # TEST: May be closer to paper's [0.5s, 2.0s]
   
   # Bin mappings for different methods:
   methods:

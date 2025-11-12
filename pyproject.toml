@@ -5,7 +5,7 @@ description = "Recreation of Figure 2d/2e from Rumyantsev et al. 2020"
 authors = [
     {name = "Stanford Collaboration", email = "contact@example.com"}
 ]
-readme = "PROJECT_OVERVIEW.md"
+readme = "README.md"
 requires-python = ">=3.10"
 
 dependencies = [
@@ -20,6 +20,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# For interactive Jupyter notebook usage
+notebook = [
+    "jupyter>=1.0.0",
+    "ipykernel>=6.25.0",
+    "notebook>=7.0.0",
+]
+
+# For development and testing
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
@@ -28,6 +36,7 @@ dev = [
     "black>=23.0.0",
     "jupyter>=1.0.0",
     "ipykernel>=6.25.0",
+    "notebook>=7.0.0",
 ]
 
 [build-system]

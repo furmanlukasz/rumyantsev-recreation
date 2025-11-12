@@ -22,7 +22,8 @@ from rumyantsev.analysis.statistics import (compare_distributions,
 from rumyantsev.analysis.tuning_similarity import (group_pairs_by_tuning,
                                                    select_top_active)
 from rumyantsev.data.loader import DataLoader
-from rumyantsev.preprocessing.trial_filtering import (integrate_time_window,
+from rumyantsev.preprocessing.trial_filtering import (apply_spike_threshold,
+                                                      integrate_time_window,
                                                       reshape_to_matrix,
                                                       validate_trial_counts)
 from rumyantsev.visualization.figure_2 import (create_figure_2d,
@@ -51,6 +52,15 @@ def main():
     print(f"   Actual time: [{method_config['time_window_start_bin']*0.275:.3f}s, {method_config['time_window_end_bin']*0.275:.3f}s]")
     print(f"   Duration: {(method_config['time_window_end_bin'] - method_config['time_window_start_bin'])*0.275:.3f}s")
     
+    # Show spike threshold configuration
+    spike_config = config['preprocessing'].get('spike_threshold', {})
+    spike_enabled = spike_config.get('enabled', False)
+    spike_value = spike_config.get('value', 0.5)
+    print(f"\n🎯 Spike Threshold: {'ENABLED' if spike_enabled else 'DISABLED'}")
+    if spike_enabled:
+        print(f"   Threshold value: {spike_value}")
+        print(f"   Effect: Amplitudes < {spike_value} set to 0")
+    
     # Load data
     data_path = Path('coding_fidelity_bounds.dataset.parquet')
     loader = DataLoader(data_path)
@@ -75,9 +85,17 @@ def main():
     for mouse_id in mouse_ids:
         print(f"Processing {mouse_id}...")
         
-        # Extract and validate
+        # Extract mouse data
         mouse_data = loader.get_mouse_data(mouse_id)
         
+        # Apply spike threshold if enabled
+        spike_config = config['preprocessing'].get('spike_threshold', {})
+        if spike_config.get('enabled', False):
+            spike_value = spike_config.get('value', 0.5)
+            print(f"  Applying spike threshold: {spike_value}")
+            mouse_data = apply_spike_threshold(mouse_data, spike_value)
+        
+        # Validate trial counts
         try:
             validate_trial_counts(
                 mouse_data,
