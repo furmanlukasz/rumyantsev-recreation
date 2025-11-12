@@ -255,18 +255,3 @@ preprocessing:
    - Need author confirmation
    - Can't fix without knowing what was done
 
-4. **Dataset source mismatch**
-   - Dataset might not be for Fig 2d/2e
-   - Need author confirmation
-
----
-
-## Next Steps (Immediate)
-
-1. ✅ **You're correctly implementing the analysis** - good news!
-2. 🔄 **Test bins [2,7] vs [1,7]** - 5 minute test
-3. 🔄 **Test spike threshold 0.5** - 30 minute implementation
-4. ✉️ **Email author** - get definitive answers
-5. 📊 **Check amplitude statistics** - understand the data better
-
-The good news: Your code is correct! The issue is likely in the data preprocessing or parameters.
